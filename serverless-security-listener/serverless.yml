@@ -1,0 +1,35 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: securingthespeed
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: serverless-security-listener
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless-security-listener
+
+custom:
+  wsgi:
+    app: app.app
+
+provider:
+  name: aws
+  runtime: python3.12
+
+s3:
+  webhookStorage:
+    name: webhook-storage.securingthespeed
+    versioningConfiguration:
+      Status: Enabled
+
+functions:
+  api:
+    handler: wsgi_handler.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: /{proxy+}
+          method: ANY
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
