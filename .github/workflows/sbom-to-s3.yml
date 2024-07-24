@@ -1,0 +1,14 @@
+on: [push]
+
+jobs:
+  upload-sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Generate Python SBOM
+        uses: CycloneDX/gh-python-generate-sbom@v2
+        with:
+          input: ./serverless_security_listener/requirements.txt
+          output: ./bom.json
+          format: json
