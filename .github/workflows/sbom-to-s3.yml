@@ -9,6 +9,6 @@ jobs:
       - name: Generate Python SBOM
         uses: CycloneDX/gh-python-generate-sbom@v2
         with:
-          input: ./requirements.txt
+          input: ./serverless_security_listener/requirements.txt
           output: ./bom.json
           format: json
