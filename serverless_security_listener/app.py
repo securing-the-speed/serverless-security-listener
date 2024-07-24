@@ -3,6 +3,11 @@ from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)
 
+def upload_to_s3(payload):
+    s3 = boto3.client('s3')
+    s3.put_object(Bucket='security-listener-bucket', Key='payload)', Body=payload)
+    return    
+
 
 @app.route("/")
 def hello_from_root():
@@ -14,13 +19,7 @@ def hello():
     return jsonify(message='Hello from path!')
 
 @app.route("/webhook")
-# generate a function that uploads a payload to s3
 def hookshot_to_s3():
-    def upload_to_s3(payload):
-        # upload payload to s3
-        # upload a file to an s3 bucket
-        s3 = boto3.client('s3')  
-        s3.upload_file(payload, 'mybucket', 'myobject')
         return jsonify(message='Payload uploaded to s3!')
 
 @app.errorhandler(404)
