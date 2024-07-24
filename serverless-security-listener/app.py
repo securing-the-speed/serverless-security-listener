@@ -1,3 +1,4 @@
+import boto3
 from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)
@@ -18,7 +19,6 @@ def hookshot_to_s3():
     def upload_to_s3(payload):
         # upload payload to s3
         # upload a file to an s3 bucket
-        import boto3
         s3 = boto3.client('s3')  
         s3.upload_file(payload, 'mybucket', 'myobject')
         return jsonify(message='Payload uploaded to s3!')
